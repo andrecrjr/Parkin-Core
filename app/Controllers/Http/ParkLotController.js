@@ -45,7 +45,7 @@ class ParkLotController {
             const car = await Car.findOrFail(parking.car_id);
             //remove into pivot table
             const parking_car = await park.parkingCar().detach([car.id])
-                if(parking_car === 0){
+                if(parking_car === 1){
                     car.isInParkLot = false;
                     await car.save()
                     response.status(200).send({'data':"Car leaves from park lot!"}) 
