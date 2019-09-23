@@ -19,22 +19,25 @@ class ParkLotController {
     async parking_car({request, response}){
         const parking = request.only(["car_id", "park_id"]);
         try{
+
             const car = await Car.findOrFail(parking.car_id);
             const park = await ParkLot.findOrFail(parking.park_id);
             //insert into pivot table
             const parking_car = await park.parkingCar().attach(car,(row)=>{
                 row.park_lot_id = park.id,
                 row.car_id = car.id,
-                row.vacancyNumber = true
-
+                row.vacancyNumber = 1
+                row.isInVacancy = true
             })
             car.isInParkLot = true;
             await car.save()
-            
             return parking_car
         }catch(err){
             console.log(err)
-            response.status(400).send({'error':'User already in this park lot'})
+            if(err.errno === 19){
+                return response.status(400).send({'error':'There is already a car in this vacancy'})
+            }
+            return response.status(500).send({'error':'No park lot found'})
         }
     }
 
@@ -44,7 +47,8 @@ class ParkLotController {
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
             //remove into pivot table
-            const parking_car = await park.parkingCar().detach([car.id])
+            //constnotaFiscal = await NotaFiscal.create([{}])
+            const parking_car = await park.parkingCar().detach()
                 if(parking_car === 1){
                     car.isInParkLot = false;
                     await car.save()
@@ -53,6 +57,7 @@ class ParkLotController {
                     response.status(400).send({'data':'No car is attached to leave!'})
                 }
             }catch(err){
+                console.log(err)
                 response.status(404).send({'error':'No park lot found'})
         }
     }
