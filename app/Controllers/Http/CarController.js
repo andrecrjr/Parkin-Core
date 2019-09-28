@@ -5,7 +5,7 @@ const User = use('App/Models/User');
 
 class CarController{
     async create_car({request, response}){
-        const data = request.only(["car_code", "model", "owner_id"]);
+        const data = request.only(["car_model", "car_code", "owner_id"]);
         const car = await Car.create(data);
         return car;
     }

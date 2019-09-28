@@ -8,13 +8,14 @@ class CarSchema extends Schema {
     this.create('cars', (table) => {
       table.increments()
       table.timestamps()
-      table.string('model').notNullable();
+      table.string('car_model').notNullable();
       table.string('car_code').notNullable();
-      table.integer('owner_id').unsigned().notNullable().references('id').inTable('users').onUpdate('cascade').onDelete('cascade');    })
+      table.integer('owner_id').unsigned().notNullable().references('id').inTable('users').onUpdate('cascade').onDelete('cascade');    
+    })
   }
 
   down () {
-    this.drop('car')
+    this.drop('cars')
   }
 }
 

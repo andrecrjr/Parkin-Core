@@ -3,21 +3,21 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class VacancyParkLotSchema extends Schema {
+class ParkLotsUse extends Schema {
   up () {
-    this.create('vacancy_park_lots', (table) => {
+    this.create('park_lots_uses', (table) => {
       table.integer('park_lot_id').unsigned().notNullable().references('id').inTable('parklots').onUpdate('cascade').onDelete('cascade');
       table.integer('car_id').unsigned().notNullable().references('id').inTable('cars').onUpdate('cascade').onDelete('cascade');
-      table.boolean('isInVacancy').defaultTo(false)
-      table.integer('vacancyNumber').notNullable()
+      table.boolean('parkin_has_car').defaultTo(false)
+      table.integer('parkin_active_number').notNullable().defaultTo(1)
       table.increments()
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('vacancy_park_lots')
+    this.drop('park_lots_uses')
   }
 }
 
-module.exports = VacancyParkLotSchema
+module.exports = ParkLotsUse

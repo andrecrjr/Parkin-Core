@@ -10,7 +10,7 @@ class ParkLot extends Model {
     }
 
     parkingCar(){
-        return this.belongsToMany('App/Models/Car', 'id', 'park_lot_id').pivotTable('vacancy_park_lots');
+        return this.belongsToMany('App/Models/Car', 'id', 'park_lot_id').pivotTable('park_lots_uses');
     }
 
 }

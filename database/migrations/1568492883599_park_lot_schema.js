@@ -14,7 +14,7 @@ class ParkLotSchema extends Schema {
       table.string('address').notNullable();
       table.decimal('latitude', 9, 6).notNullable();
       table.decimal('longitude', 9, 6).notNullable();
-      table.integer('vacancyQtt').notNullable();
+      table.integer('parkins_number').notNullable();
       table.timestamps();
     })
   }
