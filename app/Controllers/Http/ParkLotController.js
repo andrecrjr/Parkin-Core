@@ -3,6 +3,8 @@
 const ParkLot = use('App/Models/ParkLot');
 const User = use('App/Models/User');
 const Car = use('App/Models/Car');
+const Database = use('Database')
+const Hash = use('Hash')
 
 class ParkLotController {
     async create({request, response}){
@@ -32,7 +34,8 @@ class ParkLotController {
             //insert into pivot table
             //const isThereCarHere = await park.parkingCar().pivotQuery().where('park_lot_id', );
             //console.log(isThereCarHere)
-            const parking_car = await park.parkingCar().attach(car,(row)=>{
+            const parking_car = await park.parkingCar().attach(car, (row)=>{
+                row.id = row.id + 1,
                 row.park_lot_id = park.id,
                 row.car_id = car.id,
                 row.parkin_active_number = parking.parkin_active_number
@@ -45,21 +48,17 @@ class ParkLotController {
             if(err.errno === 19){
                 return response.status(400).send({'error':'There is already a car in this park lot'})
             }
-            
             return response.status(500).send({'error':'No park lot or car found'})
         }
     }
 
     async unparking_car({request, response}){
-        const parking = request.only(["car_id", "park_id"]);
+        const parking = request.only(["car_id", "park_id", 'parkin_active_number']);
         try{
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
-            //remove into pivot table
-            //constnotaFiscal = await NotaFiscal.create([{}])
-            const parking_car = await park.parkingCar().pivotQuery().where('car_id', car.id).delete();
-            console.log(parking_car)
-                if(parking_car === 1){
+            const parking_car = await Database.from('park_lots_uses').where({parkin_active_number:parking.parkin_active_number, car_id:car.id, park_lot_id:park.id}).delete()
+                if(parking_car){
                     car.is_in_parklot = false;
                     await car.save()
                     response.status(200).send({'data':"Car leaves from park lot!"}) 
@@ -68,8 +67,7 @@ class ParkLotController {
                 }
             }
             catch(err){
-            console.log(err)
-            response.status(404).send({'error':'No park lot found'})
+            response.status(404).send({'error':'No park lot or car found'})
         }
     }
 

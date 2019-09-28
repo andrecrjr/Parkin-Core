@@ -6,11 +6,11 @@ const Schema = use('Schema')
 class ParkLotsUse extends Schema {
   up () {
     this.create('park_lots_uses', (table) => {
+      table.increments()
       table.integer('park_lot_id').unsigned().notNullable().references('id').inTable('parklots').onUpdate('cascade').onDelete('cascade');
       table.integer('car_id').unsigned().notNullable().references('id').inTable('cars').onUpdate('cascade').onDelete('cascade');
       table.boolean('parkin_has_car').defaultTo(false)
       table.integer('parkin_active_number').notNullable().defaultTo(1)
-      table.increments()
       table.timestamps()
     })
   }
