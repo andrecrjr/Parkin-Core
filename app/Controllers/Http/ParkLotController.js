@@ -42,13 +42,14 @@ class ParkLotController {
     }
 
     async unparking_car({request, response}){
-            const parking = request.only(["car_id", "park_id"]);
+        const parking = request.only(["car_id", "park_id"]);
         try{
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
             //remove into pivot table
             //constnotaFiscal = await NotaFiscal.create([{}])
-            const parking_car = await park.parkingCar().detach()
+            const parking_car = await park.parkingCar().pivotQuery().where('car_id', car.id).delete();
+            console.log(parking_car)
                 if(parking_car === 1){
                     car.isInParkLot = false;
                     await car.save()
@@ -56,9 +57,10 @@ class ParkLotController {
                 }else{
                     response.status(400).send({'data':'No car is attached to leave!'})
                 }
-            }catch(err){
-                console.log(err)
-                response.status(404).send({'error':'No park lot found'})
+            }
+            catch(err){
+            console.log(err)
+            response.status(404).send({'error':'No park o lot found'})
         }
     }
 
