@@ -4,12 +4,26 @@ const ParkLot = use('App/Models/ParkLot');
 const User = use('App/Models/User');
 const Car = use('App/Models/Car');
 const Database = use('Database')
-const Hash = use('Hash')
 
 class ParkLotController {
 
     constructor(){
-        this.parkLot = Database.from('park_lots_uses');
+        this.parkLot = Database.from('park_lots')
+        this.parkLotCar = Database.from('park_lots_uses');
+    }
+
+    async alreadyHasCar (park_id){
+        let hasCar = []
+        const existLot = await this.parkLotCar.where({
+            park_lot_id: park_id,
+            parkin_has_car:true,
+        })
+        existLot.forEach((data)=>{
+            if(data.parkin_has_car === 1){
+                hasCar.push(data.parkin_active_number)
+            }
+        })
+        return hasCar
     }
 
     async create({request, response}){
@@ -30,25 +44,50 @@ class ParkLotController {
         return json
     }
 
+    async list_parkings({params}){
+        const park = await ParkLot.findOrFail(params.id)
+        let number_of_parks = park.parkins_number;
+        const hasCar = await this.alreadyHasCar(park.id);
+        let json = [];
+
+        for(let i = 1; i <= number_of_parks ; i++){
+            if(!hasCar.includes(i)){
+                json.push({"id":i,"parkin_has_car":false});
+            }
+        }
+        return json;
+    }
+
     async parking_car({request, response}){
         const parking = request.only(["car_id", "park_id", "parkin_active_number"]);
         try{
             const car = await Car.findOrFail(parking.car_id);
             const park = await ParkLot.findOrFail(parking.park_id);
-            const parking_car = await park.parkingCar().attach(car, async (row)=>{
-                row.id = await this.parkLot.getMax('id') + 1,
-                row.park_lot_id = park.id,
-                row.car_id = car.id,
-                row.parkin_active_number = parking.parkin_active_number
-                row.parkin_has_car = true
-            })
+            const hasCar = await this.alreadyHasCar(park.id);
+            let parking_car = undefined
+            console.log(hasCar)
+                if(parking.parkin_active_number > park.parkins_number){
+                    return response.status(404).json({"error":"This parkin not exist"})
+                }
+                
+                if(!hasCar.includes(parking.parkin_active_number))
+                {
+                    parking_car = await park.parkingCar().attach(car, async (row)=>{
+                            row.id = await this.parkLotCar.getMax('id') + 1 || 1,
+                            row.park_lot_id = park.id,
+                            row.car_id = car.id,
+                            row.parkin_active_number = parking.parkin_active_number
+                            row.parkin_has_car = true
+                    
+                    })
+                }else{
+                    return response.status(400).json({"error":"There is a car already in this parkin or this parkin not exist"})
+                }
             car.is_in_parklot = true;
             await car.save()
             return parking_car
         }catch(err){
-            if(err.errno === 19){
-                return response.status(400).send({'error':'There is already a car in this park lot'})
-            }
+            console.log(err)
             return response.status(500).send({'error':'No park lot or car found'})
         }
     }
@@ -58,7 +97,7 @@ class ParkLotController {
         try{
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
-            const parking_car = await this.parkLot.where({
+            const parking_car = await this.parkLotCar.where({
                     parkin_active_number:parking.parkin_active_number, 
                     car_id:car.id, 
                     park_lot_id:park.id
@@ -76,6 +115,7 @@ class ParkLotController {
         }
     }
 
+    
 }
 
 module.exports = ParkLotController

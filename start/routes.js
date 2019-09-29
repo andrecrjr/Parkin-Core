@@ -33,3 +33,4 @@ Route.post('create_lot', 'ParkLotController.create');
 Route.get('show_lots/:id', 'ParkLotController.show');
 Route.post('parkin', 'ParkLotController.parking_car');
 Route.post('unparkin', 'ParkLotController.unparking_car');
+Route.get('list_parkin/:id', 'ParkLotController.list_parkings');
