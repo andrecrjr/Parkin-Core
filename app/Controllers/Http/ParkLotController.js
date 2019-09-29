@@ -25,7 +25,7 @@ class ParkLotController {
             if(data.parkin_has_car === 1){
                 hasCar.push(data.parkin_active_number)
                 if(withcars){
-                    listCarsId.push({"active_number":data.parkin_active_number,"car_inside":data.car_id})
+                    listCarsId.push({"active_number":data.parkin_active_number,"car_id":data.car_id})
                 }
             }
         })
@@ -67,20 +67,17 @@ class ParkLotController {
                 //if not includes... so not include it in the json
                 if(!insideParkin.hasCar.includes(i)){
                     json.push({"active_parkin":i,"parkin_has_car":false, "park_lot":park.id});
-                }else if(has_cars==='true'){
-                    if(insideParkin.listCarsId.active_number === i){
-                        insideParkin.listCarsId.forEach((data, index)=>{
-                                json.push({"active_parkin":i,"parkin_has_car":true, "park_lot":park.id, "car_inside":data.car_inside});
+                }else 
+                    if(has_cars==='true'){
+                        console.log(insideParkin.listCarsId)
+                        insideParkin.listCarsId.forEach((data)=>{
+                            //if active number is equal of value of the for above
+                            if(data.active_number === i){
+                                json.push({"active_parkin":i,"parkin_has_car":true, ...data});
                             }
-                        )
-                        
-                    }else{
-                        json.push({"active_parkin":i,"parkin_has_car":false, "park_lot":park.id});
+                        })
                     }
                 }
-            }
-        
-        
         return json;
     }
 
@@ -94,7 +91,7 @@ class ParkLotController {
                 if(parking.parkin_active_number > park.parkins_number){
                     return response.status(404).json({"error":"This parkin not exist"})
                 }
-                if(!hasCar.includes(parking.parkin_active_number))
+                if(!hasCar.includes(parking.parkin_active_number) || !car.is_in_parklot)
                 {
                     parking_car = await park.parkingCar().attach(car, async (row)=>{
                             row.id = await this.parkLotCar.getMax('id') + 1 || 1,
