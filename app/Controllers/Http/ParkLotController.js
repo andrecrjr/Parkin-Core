@@ -12,8 +12,11 @@ class ParkLotController {
         this.parkLotCar = Database.from('park_lots_uses');
     }
 
-    async alreadyHasCar (park_id){
+    async alreadyHasCar (park_id, withcars=false){
         let hasCar = []
+        let listCarsId = []
+        let insideParkinLot = {};
+
         const existLot = await this.parkLotCar.where({
             park_lot_id: park_id,
             parkin_has_car:true,
@@ -21,18 +24,27 @@ class ParkLotController {
         existLot.forEach((data)=>{
             if(data.parkin_has_car === 1){
                 hasCar.push(data.parkin_active_number)
+                if(withcars){
+                    listCarsId.push({"active_number":data.parkin_active_number,"car_inside":data.car_id})
+                }
             }
         })
+
+        if(withcars){
+            insideParkinLot.listCarsId = listCarsId
+            insideParkinLot.hasCar = hasCar
+            return insideParkinLot;
+        }
         return hasCar
     }
 
-    async create({request, response}){
+    async create({request}){
         const data = request.only(["owner_id", "cep", "address", 'latitude', 'longitude', 'parkins_number']);
         const parkLot = await ParkLot.create(data)
         return parkLot;
     }
 
-    async show({request, response, params}){
+    async show({params}){
         const user = await User.findOrFail(params.id);
         const lot = await user.parklots().fetch();
         const json = lot.toJSON()
@@ -44,17 +56,31 @@ class ParkLotController {
         return json
     }
 
-    async list_parkings({params}){
+    async list_parkings({request, params}){
+        const {has_cars} = request.all()
         const park = await ParkLot.findOrFail(params.id)
         let number_of_parks = park.parkins_number;
-        const hasCar = await this.alreadyHasCar(park.id);
+        const insideParkin = await this.alreadyHasCar(park.id, true);
         let json = [];
-
-        for(let i = 1; i <= number_of_parks ; i++){
-            if(!hasCar.includes(i)){
-                json.push({"id":i,"parkin_has_car":false});
+            for(let i = 1; i <= number_of_parks ; i++){
+                //verify if it exists in database some parkin true and going to send an array of ids
+                //if not includes... so not include it in the json
+                if(!insideParkin.hasCar.includes(i)){
+                    json.push({"active_parkin":i,"parkin_has_car":false, "park_lot":park.id});
+                }else if(has_cars==='true'){
+                    if(insideParkin.listCarsId.active_number === i){
+                        insideParkin.listCarsId.forEach((data, index)=>{
+                                json.push({"active_parkin":i,"parkin_has_car":true, "park_lot":park.id, "car_inside":data.car_inside});
+                            }
+                        )
+                        
+                    }else{
+                        json.push({"active_parkin":i,"parkin_has_car":false, "park_lot":park.id});
+                    }
+                }
             }
-        }
+        
+        
         return json;
     }
 
@@ -65,11 +91,9 @@ class ParkLotController {
             const park = await ParkLot.findOrFail(parking.park_id);
             const hasCar = await this.alreadyHasCar(park.id);
             let parking_car = undefined
-            console.log(hasCar)
                 if(parking.parkin_active_number > park.parkins_number){
                     return response.status(404).json({"error":"This parkin not exist"})
                 }
-                
                 if(!hasCar.includes(parking.parkin_active_number))
                 {
                     parking_car = await park.parkingCar().attach(car, async (row)=>{
@@ -78,7 +102,6 @@ class ParkLotController {
                             row.car_id = car.id,
                             row.parkin_active_number = parking.parkin_active_number
                             row.parkin_has_car = true
-                    
                     })
                 }else{
                     return response.status(400).json({"error":"There is a car already in this parkin or this parkin not exist"})
@@ -97,6 +120,7 @@ class ParkLotController {
         try{
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
+            //find in the parklotuse database where is the parklot the car and the active lot
             const parking_car = await this.parkLotCar.where({
                     parkin_active_number:parking.parkin_active_number, 
                     car_id:car.id, 

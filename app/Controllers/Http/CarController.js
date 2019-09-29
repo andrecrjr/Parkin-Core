@@ -9,13 +9,13 @@ class CarController{
         const car = await Car.create(data);
         return car;
     }
-
     
     async show_cars({params}){
         const user = await User.find(params.id);
         const cars = await user.cars().fetch();
         return cars.toJSON();
     }
+
 }
 
 module.exports = CarController

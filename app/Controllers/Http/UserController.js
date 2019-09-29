@@ -9,8 +9,7 @@ class UserController {
             const user = await User.create(data);
             return user;
         }catch{
-            console.log(response)
-            response.status(500).json({"data":"Error username or email already exists"})
+            response.status(500).json({"data":"Error username / email or identifier social(CPF) already exists"})
         }
     }
 
