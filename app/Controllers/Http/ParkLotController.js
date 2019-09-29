@@ -7,6 +7,11 @@ const Database = use('Database')
 const Hash = use('Hash')
 
 class ParkLotController {
+
+    constructor(){
+        this.parkLot = Database.from('park_lots_uses');
+    }
+
     async create({request, response}){
         const data = request.only(["owner_id", "cep", "address", 'latitude', 'longitude', 'parkins_number']);
         const parkLot = await ParkLot.create(data)
@@ -28,14 +33,10 @@ class ParkLotController {
     async parking_car({request, response}){
         const parking = request.only(["car_id", "park_id", "parkin_active_number"]);
         try{
-
             const car = await Car.findOrFail(parking.car_id);
             const park = await ParkLot.findOrFail(parking.park_id);
-            //insert into pivot table
-            //const isThereCarHere = await park.parkingCar().pivotQuery().where('park_lot_id', );
-            //console.log(isThereCarHere)
-            const parking_car = await park.parkingCar().attach(car, (row)=>{
-                row.id = row.id + 1,
+            const parking_car = await park.parkingCar().attach(car, async (row)=>{
+                row.id = await this.parkLot.getMax('id') + 1,
                 row.park_lot_id = park.id,
                 row.car_id = car.id,
                 row.parkin_active_number = parking.parkin_active_number
@@ -57,7 +58,11 @@ class ParkLotController {
         try{
             const park = await ParkLot.findOrFail(parking.park_id);
             const car = await Car.findOrFail(parking.car_id);
-            const parking_car = await Database.from('park_lots_uses').where({parkin_active_number:parking.parkin_active_number, car_id:car.id, park_lot_id:park.id}).delete()
+            const parking_car = await this.parkLot.where({
+                    parkin_active_number:parking.parkin_active_number, 
+                    car_id:car.id, 
+                    park_lot_id:park.id
+                }).delete()
                 if(parking_car){
                     car.is_in_parklot = false;
                     await car.save()
