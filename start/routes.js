@@ -17,20 +17,23 @@
 const Route = use('Route')
 
 //user controller
-Route.post('user', 'UserController.create')
-Route.get('profile/:id', 'UserController.show')
+Route.post('user', 'UserController.create');
+Route.get('profile/:id', 'UserController.show');
 
 //session controller
-Route.post('auth', 'SessionController.authentication')
-Route.get('is_auth', 'SessionController.is_auth')
+Route.post('auth', 'SessionController.authentication');
+Route.get('is_auth', 'SessionController.is_auth');
 
 //car controller
-Route.post('create_car', 'CarController.create_car')
-Route.get('has_cars/:id', 'CarController.show_cars')
+Route.post('create_car', 'CarController.create_car');
+Route.get('has_cars/:id', 'CarController.show_cars');
 
 //park lot controller
 Route.post('create_lot', 'ParkLotController.create');
 Route.get('show_lots/:id', 'ParkLotController.show');
-Route.post('parkin', 'ParkLotController.parking_car');
-Route.post('unparkin', 'ParkLotController.unparking_car');
-Route.get('list_parkin/:id', 'ParkLotController.list_parkings');
+//parking the car
+Route.post('parkin', 'ParkingCarController.parking_car');
+Route.post('unparkin', 'ParkingCarController.unparking_car');
+
+//list of parkins
+Route.get('list_parkin/:id', 'ParkingCarController.list_parkings');
