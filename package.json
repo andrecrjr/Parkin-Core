@@ -8,8 +8,7 @@
     "client": "cd client/parkinapp && yarn start",
     "start": "node server.js",
     "test": "node ace test",
-    "start-server": "adonis serve --dev",
-    "dev": "concurrently --kill-others-on-fail \"yarn start-server\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"adonis serve --dev\" \"yarn client\""
   },
   "keywords": [
     "adonisjs",
@@ -28,6 +27,7 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.1.3",
     "@adonisjs/websocket": "^1.0.12",
+    "@adonisjs/websocket-client": "^1.0.9",
     "concurrently": "^4.1.2",
     "sqlite3": "^4.1.0"
   },

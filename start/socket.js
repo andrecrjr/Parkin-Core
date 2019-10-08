@@ -15,6 +15,16 @@
 
 const Ws = use('Ws')
 
-Ws.channel('chat', ({ socket }) => {
-  console.log('user joined with %s socket id', socket.id)
+Ws.channel('chat', ({ socket, request }) => {
+  console.log(socket.id)
+  socket.on('MESSAGE',(payload)=>{
+    socket.emit('GIVE_MESSAGE', payload)
+  })
+
+  socket.on('ENTER', (payload)=>{
+    console.log(payload.id)
+    socket.emit('WELCOME_MSG', 'bem vindo usuário: '+payload.id)
+  })
+
 })
+
