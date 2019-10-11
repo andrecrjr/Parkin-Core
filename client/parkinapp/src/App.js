@@ -1,36 +1,32 @@
 import React from 'react';
-import Ws from '@adonisjs/websocket-client'
+import {isAuthenticated} from './components/HOCs/IsAuthenticated';
+import Body from './components/Layout/Body';
+import SignUpPage from './pages/SignUpPage';
 
-const io = Ws('ws://127.0.0.1:3333')
-const channel = io.connect()
-let subs = channel.subscribe("chat");
-
-
-function App() {
-  
+function App(props) {
+  /*
   React.useEffect(()=>{
-    subs.emit("MESSAGE", [{car_id:5}])
+    props.subs.emit("MESSAGE", [{car_id:5}])
 
-    subs.on("GIVE_MESSAGE", (message)=>{
-      console.log(message)
-    })
-    }, [])
+      props.subs.on("GIVE_MESSAGE", (message)=>{
+        console.log(message)
+      })
+
+    }, [props.subs])
 
     function takeme(){
-      subs.emit("ENTER", {id:6})
-      return subs.on("WELCOME_MSG", (message)=>{
+      props.subs.emit("ENTER", {id:6})
+      return props.subs.on("WELCOME_MSG", (message)=>{
         console.log(message)
       })
     }
-    
+    */
 
   return (
-    <div className="App">
-          <button onClick={takeme}>
-            click aqui
-          </button>
-    </div>
+    <Body>
+      <SignUpPage/>
+    </Body>
   );
 }
 
-export default App;
+export default isAuthenticated(App);
