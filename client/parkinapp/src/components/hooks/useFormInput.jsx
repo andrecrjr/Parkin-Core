@@ -8,7 +8,9 @@ export const useFormInput = (initialValue)=>{
     const [error, setError] = React.useState({status:"initial", problem:""});
 
     const onChange = (e)=>{
-      validationPassword(e, setValue, setError)
+      if (validationPassword(e, setError)){
+        setValue(value)
+      }
       //validationEmail(e.target.value, setError)
       setValue(e.target.value)
     }

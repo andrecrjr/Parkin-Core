@@ -1,10 +1,10 @@
 .forms{
     &__problem{
         &--on{
-            display:block;
+            border: solid 1px red;
         }
         &--off{
-            display:none;
+            border:solid 1px black;
         }
     }
 }

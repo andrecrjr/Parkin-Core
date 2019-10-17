@@ -1,7 +1,7 @@
 import React from 'react';
 import {isAuthenticated} from './components/HOCs/IsAuthenticated';
 import Body from './components/Layout/Body';
-import SignUpPage from './pages/SignUpPage';
+import SignUpPage from './pages/SignUp/';
 import './style/form.scss';
 
 function App(props) {
