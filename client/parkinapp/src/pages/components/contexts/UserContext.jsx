@@ -3,7 +3,7 @@ import React from 'react';
 
 const userContext = React.createContext({
         id:null,
-        findCars:()=>{}
+        user:undefined,
     })
 
 export default userContext

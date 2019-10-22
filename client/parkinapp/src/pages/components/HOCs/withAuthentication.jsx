@@ -1,7 +1,7 @@
 import React from 'react';
 //import Ws from '@adonisjs/websocket-client'
 
-export const isAuthenticated = (Component)=>{
+export const withAuthentication = (Component)=>{
     return  (props) =>{
         /*
             const io = Ws('ws://127.0.0.1:3333')

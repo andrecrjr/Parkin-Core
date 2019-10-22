@@ -1,8 +1,15 @@
 import React from 'react';
-import {isAuthenticated} from './components/HOCs/IsAuthenticated';
-import Body from './components/Layout/Body';
+import Body from './pages/components/Layout/Body';
 import SignUpPage from './pages/SignUp/';
-import './style/form.scss';
+import Login from './pages/Login/';
+import './styles/main.scss';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App(props) {
   /*
@@ -24,10 +31,15 @@ function App(props) {
     */
 
   return (
-    <Body>
-      <SignUpPage/>
-    </Body>
+      <Router>
+        <Body>
+          <Switch>
+            <Route path="/signup" component={SignUpPage}/>
+            <Route path="/login" component={Login}/>
+          </Switch>
+          </Body>
+      </Router>
   );
 }
 
-export default isAuthenticated(App);
+export default App;

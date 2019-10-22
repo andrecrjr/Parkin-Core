@@ -17,7 +17,7 @@
 const Route = use('Route')
 
 //user controller
-Route.post('user', 'UserController.create');
+Route.post('create_profile', 'UserController.create');
 Route.get('profile/:id', 'UserController.show');
 
 //session controller
