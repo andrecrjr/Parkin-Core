@@ -1,17 +1,22 @@
 'use strict'
 
 class SessionController {
-    async authentication({request, auth}){
+    async authentication({request, auth,response}){
         const {email, password} = request.all()
-        const token = await auth.attempt(email, password);
-        return token;
+        try{
+            const token = await auth.attempt(email, password);
+            return token;
+        }catch(err){
+            console.log(err)
+            response.status(401).json({"data":"Problem in email or password"})
+        }
     }
 
     async is_auth({response, auth}){
         try{
             return await auth.check()
         }catch{
-            response.status(401).send({"data":"not logged"})
+            return response.status(401).send({"data":"not logged"})
         }
     }
 }

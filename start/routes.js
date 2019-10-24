@@ -17,23 +17,23 @@
 const Route = use('Route')
 
 //user controller
-Route.post('create_profile', 'UserController.create');
-Route.get('profile/:id', 'UserController.show');
+Route.post('api/create_profile', 'UserController.create');
+Route.get('api/profile/:id', 'UserController.show');
 
 //session controller
-Route.post('auth', 'SessionController.authentication');
-Route.get('is_auth', 'SessionController.is_auth');
+Route.post('api/auth', 'SessionController.authentication');
+Route.get('api/is_auth', 'SessionController.is_auth');
 
 //car controller
-Route.post('create_car', 'CarController.create_car');
-Route.get('has_cars/:id', 'CarController.show_cars');
+Route.post('api/create_car', 'CarController.create_car');
+Route.get('api/has_cars/:id', 'CarController.show_cars');
 
 //park lot controller
-Route.post('create_lot', 'ParkLotController.create');
-Route.get('show_lots/:id', 'ParkLotController.show');
+Route.post('api/create_lot', 'ParkLotController.create');
+Route.get('api/show_lots/:id', 'ParkLotController.show');
 //parking the car
-Route.post('parkin', 'ParkingCarController.parking_car');
-Route.post('unparkin', 'ParkingCarController.unparking_car');
+Route.post('api/parkin', 'ParkingCarController.parking_car');
+Route.post('api/unparkin', 'ParkingCarController.unparking_car');
 
 //list of parkins
-Route.get('list_parkin/:id', 'ParkingCarController.list_parkings');
+Route.get('api/list_parkin/:id', 'ParkingCarController.list_parkings');

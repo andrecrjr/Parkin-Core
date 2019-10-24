@@ -2,6 +2,7 @@ import React from 'react';
 import Body from './pages/components/Layout/Body';
 import SignUpPage from './pages/SignUp/';
 import Login from './pages/Login/';
+import {Main} from './pages/Main';
 import './styles/main.scss';
 
 import {
@@ -34,8 +35,9 @@ function App(props) {
       <Router>
         <Body>
           <Switch>
-            <Route path="/signup" component={SignUpPage}/>
-            <Route path="/login" component={Login}/>
+            <Route exact path="/" component={Main}/>
+            <Route exact path="/signup" component={SignUpPage}/>
+            <Route exact path="/login" component={Login}/>
           </Switch>
           </Body>
       </Router>
