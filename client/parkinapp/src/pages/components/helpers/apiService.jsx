@@ -6,10 +6,8 @@ export const api = axios.create(
         headers:{"Content-Type":"application/json", "charset":"utf-8"}
     })
 
-    export const apiAuth = (auth_token)=>{
-        let config = {
-            baseURL:'http://127.0.0.1:3333/api/',
-            headers:{"Content-Type":"application/json", "charset":"utf-8", "Authorization":`Bearer ${auth_token}`}
-        }
-        return axios.create(config)
-    }
+export const apiAuthGet = async (url, token, payload) =>{
+    const data = axios.get('http://127.0.0.1:3333/api/'+url, 
+    {headers:{"Authorization":`Bearer ${token}`, "Content-Type":"application/json", "charset":"utf-8"}}, payload);
+    return data;
+}

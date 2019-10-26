@@ -1,15 +1,14 @@
 import React from 'react';
-import Body from './pages/components/Layout/Body';
-import SignUpPage from './pages/SignUp/';
-import Login from './pages/Login/';
-import {Main} from './pages/Main';
-import './styles/main.scss';
-
+import {withAuthentication} from './components/HOCs/withAuthentication';
+import withAccount from './components/HOCs/withAccount';
+import Body from './components/Layout/Body';
+import SignUpPage from './SignUp';
+import Login from './Login';
+import {Main} from './Main';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 function App(props) {
@@ -30,18 +29,17 @@ function App(props) {
       })
     }
     */
-
   return (
       <Router>
         <Body>
           <Switch>
-            <Route exact path="/" component={Main}/>
+            <Route exact path="/" component={Main} />
             <Route exact path="/signup" component={SignUpPage}/>
             <Route exact path="/login" component={Login}/>
           </Switch>
-          </Body>
+        </Body>
       </Router>
   );
 }
 
-export default App;
+export default withAuthentication(withAccount(App));

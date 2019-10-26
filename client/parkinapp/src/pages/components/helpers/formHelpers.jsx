@@ -19,7 +19,3 @@
       return true
     }
   }
-
-  const postFetch = (url, obj)=>{
-    return 
-  }

@@ -1,9 +1,5 @@
 import React from 'react';
 
+export const TokenContext = React.createContext({});
 
-const userContext = React.createContext({
-        id:null,
-        user:undefined,
-    })
-
-export default userContext
+export const UserContext = React.createContext({});

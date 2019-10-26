@@ -12,9 +12,9 @@ class SessionController {
         }
     }
 
-    async is_auth({response, auth}){
+    async show_user({response, auth}){
         try{
-            return await auth.check()
+            return await auth.getUser()
         }catch{
             return response.status(401).send({"data":"not logged"})
         }

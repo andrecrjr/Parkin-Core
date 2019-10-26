@@ -19,7 +19,6 @@ class UserController {
         const user = await User.findOrFail(params.id);
         return user;
     }
-    
 
 }
 

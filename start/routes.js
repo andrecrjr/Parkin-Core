@@ -22,7 +22,7 @@ Route.get('api/profile/:id', 'UserController.show');
 
 //session controller
 Route.post('api/auth', 'SessionController.authentication');
-Route.get('api/is_auth', 'SessionController.is_auth');
+Route.get('api/show_user', 'SessionController.show_user');
 
 //car controller
 Route.post('api/create_car', 'CarController.create_car');

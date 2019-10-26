@@ -1,10 +1,13 @@
 import React from 'react';
 import {useFormInput} from '../components/hooks/useFormInput';
-import {withAuthentication} from '../components/HOCs/withAuthentication';
+import {TokenContext} from '../components/contexts/UserContext';
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 
+const SignUpPage = () =>{
 
-const SignUpPage = (props) =>{
+    const {isAuth} = React.useContext(TokenContext);
+
     const username = useFormInput("")
     const email = useFormInput("") 
     const password = useFormInput("")
@@ -15,12 +18,16 @@ const SignUpPage = (props) =>{
     async function fetchData(url, body){
         try{
             const data = await axios.post(url, body)
-            //if data 
-            //    history.push("/login") : 
-            return data;
+            console.log(data)
+            return <Redirect to='/'/>
         }catch(err){
-            console.log(err)
+            console.log(err.response)
         }
+    }
+
+    if(isAuth){
+        console.log(isAuth)
+        return <Redirect to='/'/>
     }
 
     const signUpJsonUser = {username:username.value,
@@ -31,9 +38,10 @@ const SignUpPage = (props) =>{
         identifier_social:identifier_social.value
     };
     
-
-    const submitSignUp = () =>{
-        fetchData("http://127.0.0.1:3333/create_profile",signUpJsonUser);
+    const submitSignUp = (e) =>{
+        e.preventDefault()
+        console.log(signUpJsonUser)
+        fetchData("http://127.0.0.1:3333/api/create_profile",signUpJsonUser);
     }
 
     const disableButton = () =>{
@@ -74,4 +82,4 @@ const SignUpPage = (props) =>{
     )
 }
 
-export default withAuthentication(SignUpPage);
+export default SignUpPage;
