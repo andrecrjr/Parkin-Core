@@ -5,7 +5,7 @@ import {Link, useHistory} from 'react-router-dom'
 export const Header = (props) =>{
     const data = React.useContext(UserContext);
     const history = useHistory();
-
+    
     const removeSession = () =>{
         localStorage.removeItem("token_user_parkin")
         history.push('/')       
@@ -18,14 +18,13 @@ export const Header = (props) =>{
             <div class="header__main--logo">
                 Parkin!
             </div>
-            <div className="header__user--account">
+            <div className="header__main--menu">
                 {data.user === false ?
-                    
-                    <ul>
+                    <ul className="header__main--menu-login">
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/signup">Sign Up</Link></li>
                     </ul>:
-                    <ul>
+                    <ul className="header__main--menu-user">
                         <li>Usuário: {data.user.username}</li>
                         <li onClick={removeSession}>Logout</li>
                     </ul>

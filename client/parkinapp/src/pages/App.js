@@ -1,10 +1,9 @@
 import React from 'react';
-import {withAuthentication} from './components/HOCs/withAuthentication';
 import withAccount from './components/HOCs/withAccount';
 import Body from './components/Layout/Body';
 import SignUpPage from './SignUp';
 import Login from './Login';
-import {Main} from './Main';
+import Main from './Main';
 import {
   BrowserRouter as Router,
   Switch,
@@ -42,4 +41,4 @@ function App(props) {
   );
 }
 
-export default withAuthentication(withAccount(App));
+export default withAccount(App);

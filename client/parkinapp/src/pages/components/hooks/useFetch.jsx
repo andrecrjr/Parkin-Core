@@ -1,7 +1,7 @@
 import React from 'react';
 import {api} from '../helpers/apiService'
 
-export const useFetchGet = (url, auth_token=false, payload="") =>{
+export const useFetchGet = (url, auth_token=false, payload=[]) =>{
     const [response,setResponse] = React.useState([])
     const callApi = React.useCallback( ()=>{
         async function fetchData(){

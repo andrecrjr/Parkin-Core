@@ -1,14 +1,16 @@
 import React from 'react';
 import {useFormInput} from '../components/hooks/useFormInput';
 import {api} from '../components/helpers/apiService';
-import {TokenContext} from '../components/contexts/UserContext';
 import {Redirect} from "react-router-dom";
+import {ErrorForm} from '../components/Layout/Body';
+import {useAuthentication} from '../components/hooks/useAuthentication';
 
 const Login = (props) =>{
+    const {isAuth} = props
     const loginUser = useFormInput("");
     const loginPassword = useFormInput("")
     const [error, setError] = React.useState({status:false, response:""})
-    const {isAuth} = React.useContext(TokenContext)
+    
     async function fetchData(url, body){
         try{
             const response = await api.post(url, body)
@@ -22,7 +24,6 @@ const Login = (props) =>{
             //history.push(home)
             return data;
         }catch(err){
-            console.log(err.response)
             newFormError({status:true, response:err.response.data.data})
         }
     }
@@ -42,9 +43,7 @@ const Login = (props) =>{
     
     const submitLogin = (e) =>{
         e.preventDefault()
-        const data = fetchData("auth", payloadLogin)
-        console.log(data)
-        return data;
+        return fetchData("auth", payloadLogin)
     }
 
     if(isAuth){
@@ -67,10 +66,3 @@ const Login = (props) =>{
 
 export default Login;
 
-export const ErrorForm = ({children}) =>{
-    return(
-        <div class="form__error">
-            <p>{children}</p>
-        </div>
-    )
-}

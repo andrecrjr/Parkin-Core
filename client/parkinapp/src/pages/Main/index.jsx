@@ -1,43 +1,45 @@
 import React from 'react';
-import {UserContext, TokenContext} from '../components/contexts/UserContext';
+import {UserContext} from '../components/contexts/UserContext';
+import {CarList, NoCars} from '../components/CarList/';
 import {apiAuthGet} from '../components/helpers/apiService';
 
-export const Main = (props) =>{
-    const data = React.useContext(UserContext)
-    const {token} = React.useContext(TokenContext)
+const Main = (props) =>{
+
+    const userData = React.useContext(UserContext)
     const [cars, setCars] = React.useState([])
+    console.log(userData)
     
     const loadCars = React.useCallback(async (id) =>{
         try{
-            const {data} = await apiAuthGet("has_cars/"+id, token)
+            const {data} = await apiAuthGet("has_cars/"+id, userData.token)
             setCars(data);
         }catch(err){
             console.log(err)
         }
-    }, [token])
+    }, [userData.token])
+    
     
     React.useEffect(()=>{
-       if(data.user.id){
-           loadCars(data.user.id)
+       if(userData.user.id){
+           loadCars(userData.user.id)
        }
-    },[loadCars, data.user.id])
+    },[loadCars, userData.user.id])
 
-    if(token){
-        console.log(cars)
-        return(
-            <>
-                {cars.map((ctx, index)=>
-                    <ul key={index}>
-                        <li>{ctx.car_code}</li>
-                        <li>{ctx.car_model}</li>
-                        <li>Está em um parkin? {ctx.is_in_parklot === 0 ? `Não` : `Sim`}</li>
-                    </ul>
-                )}
-            </>
-        )
+    if(userData.token){
+        if(cars.length > 0){
+            return(
+                <>
+                    <CarList cars={cars} />
+                </>
+            )
+        }else{
+            return(<NoCars/>)
+        }
     }
 
     return(
         <h1>Welcome to Parkin, your solutions to find Park Lots!</h1>
     )
 }
+
+export default Main;

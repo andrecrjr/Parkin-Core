@@ -1,13 +1,14 @@
 import React from 'react';
+import {UserContext} from '../contexts/UserContext';
+import {useAuthentication} from '../hooks/useAuthentication';
 import {apiAuthGet} from '../helpers/apiService';
-import {TokenContext, UserContext} from '../contexts/UserContext';
 
 const withAccount = (Component) =>{
 
     return (props) =>{
-        const {token} = React.useContext(TokenContext);
+        const {token, isAuth} = useAuthentication()
         const [user, setUser] = React.useState({})
-
+        
         React.useMemo( async ()=>{
             try{
                 const {data} = await apiAuthGet("show_user", token)
@@ -18,7 +19,7 @@ const withAccount = (Component) =>{
         },[token])
 
         return (<>
-                    <UserContext.Provider value={{user}}>
+                    <UserContext.Provider value={{user, token, isAuth}}>
                         <Component {...props}/>
                     </UserContext.Provider>
                 </>

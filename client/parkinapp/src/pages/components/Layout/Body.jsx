@@ -1,13 +1,7 @@
 import React from 'react';
 import {Header} from '../Header';
-import {TokenContext} from '../contexts/UserContext';
 
 const Body = (props) =>{
-
-    const {token} = React.useContext(TokenContext);
-    React.useMemo(()=>{
-        console.log(token)
-    }, [token])
 
     return(
         <>
@@ -20,3 +14,12 @@ const Body = (props) =>{
 }
 
 export default Body;
+
+
+export const ErrorForm = ({children}) =>{
+    return(
+        <div class="form__error">
+            <p>{children}</p>
+        </div>
+    )
+}

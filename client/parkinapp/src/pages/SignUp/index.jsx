@@ -1,13 +1,11 @@
 import React from 'react';
 import {useFormInput} from '../components/hooks/useFormInput';
-import {TokenContext} from '../components/contexts/UserContext';
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
+import {useAuthentication} from '../components/hooks/useAuthentication'
 
 const SignUpPage = () =>{
-
-    const {isAuth} = React.useContext(TokenContext);
-
+    const {isAuth} = useAuthentication()
     const username = useFormInput("")
     const email = useFormInput("") 
     const password = useFormInput("")
@@ -18,15 +16,18 @@ const SignUpPage = () =>{
     async function fetchData(url, body){
         try{
             const data = await axios.post(url, body)
-            console.log(data)
-            return <Redirect to='/'/>
+            if(data.status === 200)
+                return <Redirect to='/'/>
+            
         }catch(err){
             console.log(err.response)
         }
     }
-
-    if(isAuth){
+    React.useEffect(()=>{
         console.log(isAuth)
+    }, [isAuth])
+    
+    if(isAuth){
         return <Redirect to='/'/>
     }
 
