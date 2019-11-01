@@ -3,12 +3,10 @@ import {UserContext} from '../components/contexts/UserContext';
 import {CarList, NoCars} from '../components/CarList/';
 import {apiAuthGet} from '../components/helpers/apiService';
 
-const Main = (props) =>{
-
+const Main = () =>{
     const userData = React.useContext(UserContext)
     const [cars, setCars] = React.useState([])
-    console.log(userData)
-    
+
     const loadCars = React.useCallback(async (id) =>{
         try{
             const {data} = await apiAuthGet("has_cars/"+id, userData.token)
@@ -17,7 +15,6 @@ const Main = (props) =>{
             console.log(err)
         }
     }, [userData.token])
-    
     
     React.useEffect(()=>{
        if(userData.user.id){

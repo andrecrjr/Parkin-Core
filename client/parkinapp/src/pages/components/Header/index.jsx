@@ -8,7 +8,7 @@ export const Header = (props) =>{
     
     const removeSession = () =>{
         localStorage.removeItem("token_user_parkin")
-        history.push('/')       
+        history.push('/')   
         window.location.reload()
     }
 

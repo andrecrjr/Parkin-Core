@@ -3,25 +3,24 @@ import {useFormInput} from '../components/hooks/useFormInput';
 import {api} from '../components/helpers/apiService';
 import {Redirect} from "react-router-dom";
 import {ErrorForm} from '../components/Layout/Body';
-import {useAuthentication} from '../components/hooks/useAuthentication';
+import {UserContext} from '../components/contexts/UserContext';
 
 const Login = (props) =>{
-    const {isAuth} = props
+    const {isAuth} = React.useContext(UserContext);
     const loginUser = useFormInput("");
-    const loginPassword = useFormInput("")
-    const [error, setError] = React.useState({status:false, response:""})
-    
+    const loginPassword = useFormInput("");
+    const [error, setError] = React.useState({status:false, response:""});
+    const [warning, setWarning] = React.useState(null);
+
     async function fetchData(url, body){
         try{
             const response = await api.post(url, body)
             const {status, data} = response
             if(status === 200){
-                console.log(status)
                 localStorage.setItem('token_user_parkin', data.token)
-                props.history.push('/?login_sucess')
+                props.history.push('/')
                 window.location.reload()
             }
-            //history.push(home)
             return data;
         }catch(err){
             newFormError({status:true, response:err.response.data.data})
@@ -46,12 +45,20 @@ const Login = (props) =>{
         return fetchData("auth", payloadLogin)
     }
 
+    React.useEffect(()=>{
+        const {location} = props;
+        if(location.search === "?new_user"){
+            setWarning("Agora seu cadastro foi efetuado com sucesso, você poderá se autenticar!")
+        }
+    },[])
+
     if(isAuth){
         return <Redirect to="/"/>
     }
-    
+
     return (
         <section className="form__login">
+            {warning}
             {error.status?<ErrorForm>{error.response}</ErrorForm>:null}
             <form onSubmit={submitLogin} method="POST">
                 <label>Email:</label>

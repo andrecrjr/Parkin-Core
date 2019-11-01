@@ -8,8 +8,8 @@ const withAccount = (Component) =>{
     return (props) =>{
         const {token, isAuth} = useAuthentication()
         const [user, setUser] = React.useState({})
-        
-        React.useMemo( async ()=>{
+
+        React.useMemo(async ()=>{
             try{
                 const {data} = await apiAuthGet("show_user", token)
                 setUser(data)

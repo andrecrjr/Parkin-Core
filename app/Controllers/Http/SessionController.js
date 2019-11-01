@@ -14,7 +14,8 @@ class SessionController {
 
     async show_user({response, auth}){
         try{
-            return await auth.getUser()
+            const data = await auth.getUser()
+            return response.status(200).json({"id":data.id, "username":data.username, "email":data.email, "first_name":data.first_name,"last_name":data.last_name});
         }catch{
             return response.status(401).send({"data":"not logged"})
         }

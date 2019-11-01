@@ -2,10 +2,10 @@ import React from 'react';
 import {useFormInput} from '../components/hooks/useFormInput';
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
-import {useAuthentication} from '../components/hooks/useAuthentication'
+import {UserContext} from '../components/contexts/UserContext'
 
-const SignUpPage = () =>{
-    const {isAuth} = useAuthentication()
+const SignUpPage = (props) =>{
+    const {isAuth} = React.useContext(UserContext)
     const username = useFormInput("")
     const email = useFormInput("") 
     const password = useFormInput("")
@@ -16,17 +16,12 @@ const SignUpPage = () =>{
     async function fetchData(url, body){
         try{
             const data = await axios.post(url, body)
-            if(data.status === 200)
-                return <Redirect to='/'/>
-            
+            return data;
         }catch(err){
             console.log(err.response)
         }
     }
-    React.useEffect(()=>{
-        console.log(isAuth)
-    }, [isAuth])
-    
+
     if(isAuth){
         return <Redirect to='/'/>
     }
@@ -38,11 +33,16 @@ const SignUpPage = () =>{
         last_name:lastName.value, 
         identifier_social:identifier_social.value
     };
+
+    console.log(props)
     
-    const submitSignUp = (e) =>{
+    const submitSignUp = async (e) =>{
         e.preventDefault()
         console.log(signUpJsonUser)
-        fetchData("http://127.0.0.1:3333/api/create_profile",signUpJsonUser);
+        const data = await fetchData("http://127.0.0.1:3333/api/create_profile",signUpJsonUser);
+        if(data.status === 200){
+            return props.history.push('/login/?new_user')
+        }
     }
 
     const disableButton = () =>{
