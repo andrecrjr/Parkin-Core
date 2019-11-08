@@ -1,7 +1,13 @@
 *{
     margin:0;
     padding:0;
+    box-sizing : border-box;
 }
-@import './form.scss';
+@import './definitions.scss';
 @import './header.scss';
 @import './structure.scss';
+@import './forms/index.scss';
+
+#root{
+    background:white;
+}

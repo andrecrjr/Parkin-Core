@@ -4,6 +4,7 @@ import {api} from '../components/helpers/apiService';
 import {Redirect} from "react-router-dom";
 import {ErrorForm} from '../components/Layout/Body';
 import {UserContext} from '../components/contexts/UserContext';
+import LoginForm from './LoginForm';
 
 const Login = (props) =>{
     const {isAuth} = React.useContext(UserContext);
@@ -28,8 +29,8 @@ const Login = (props) =>{
     }
 
     const newFormError = (status) =>{
-        if(loginPassword.value === ""){
-            setError({status:true, response:"Did you forget the password?!"})
+        if(loginPassword.value === "" || loginUser === ""){
+            setError({status:true, response:"Didn't you forget something?!"})
         }else{
             setError(status)
         }
@@ -60,13 +61,9 @@ const Login = (props) =>{
         <section className="form__login">
             {warning}
             {error.status?<ErrorForm>{error.response}</ErrorForm>:null}
-            <form onSubmit={submitLogin} method="POST">
-                <label>Email:</label>
-                <input type="email" {...loginUser} name="login_username" />
-                <label>Password:</label>
-                <input type="password" {...loginPassword} name="login_password" />
-                <button type="submit">Login</button>
-            </form>
+            <LoginForm submitLogin={submitLogin} 
+                        loginUser={loginUser} 
+                        loginPass={loginPassword}/>
         </section>
     )
 }
