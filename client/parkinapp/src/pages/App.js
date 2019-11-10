@@ -4,6 +4,8 @@ import Body from './components/Layout/Body';
 import SignUpPage from './SignUp';
 import Login from './Login';
 import Main from './Main';
+import {PrivateRoute} from './components/Layout/PrivateRoute';
+import RegisterCar from './UserCars/';
 import {
   BrowserRouter as Router,
   Switch,
@@ -35,6 +37,7 @@ function App(props) {
             <Route exact path="/" component={Main} />
             <Route exact path="/signup" component={SignUpPage}/>
             <Route exact path="/login" component={Login}/>
+            <PrivateRoute path="/user_car" component={RegisterCar}/>
           </Switch>
         </Body>
       </Router>
