@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-
+import {Button} from '../Layout/Button'
 
 export const CarList = ({cars}) =>{
     return(
@@ -20,8 +20,11 @@ export const CarList = ({cars}) =>{
 
 export const NoCars = () =>{
     return(
+        <>
         <p>
-            Nenhum carro no momento! <Link to="/user_car">Cadastre um agora</Link>!
+            Nenhum carro no momento!
         </p>
+        <Link to="/user_car"><Button className={`add--car`}>Adicione o carro</Button></Link>
+        </>
     )
 }

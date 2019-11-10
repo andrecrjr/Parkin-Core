@@ -1,0 +1,17 @@
+.user{
+    &__plate{
+        &--car{
+            background: #DCDCDC;
+            display: flex;
+            flex-direction: column;
+            border-radius:25px;
+            transition:200ms all ease-in-out;
+            width: 50%;
+            margin: 0 auto;
+            ul{
+                text-align: center;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

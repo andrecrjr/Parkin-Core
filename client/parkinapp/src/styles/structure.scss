@@ -5,11 +5,11 @@
 
 
 body{
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
 ul{
     list-style: none;
@@ -27,5 +27,6 @@ a{
         justify-content: center;
         margin: 0 auto;
         font-weight: bold;
+        flex-direction: column;
     }
 }

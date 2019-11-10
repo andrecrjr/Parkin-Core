@@ -51,6 +51,9 @@ const Login = (props) =>{
         if(location.search === "?new_user"){
             setWarning("Agora seu cadastro foi efetuado com sucesso, você poderá se autenticar!")
         }
+        if(location.search === "?logoff"){
+            setWarning("You're not logged, try to login again!")
+        }
     },[])
 
     if(isAuth){
