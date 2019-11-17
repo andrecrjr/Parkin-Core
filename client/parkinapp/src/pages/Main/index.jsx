@@ -2,6 +2,7 @@ import React from 'react';
 import {UserContext} from '../components/contexts/UserContext';
 import {CarList, NoCars} from '../components/CarList/';
 import {apiAuthGet} from '../components/helpers/apiService';
+import MapUser from './MapIndex';
 
 const Main = () =>{
     const userData = React.useContext(UserContext)
@@ -30,7 +31,12 @@ const Main = () =>{
                 </>
             )
         }else{
-            return(<NoCars/>)
+            return(
+            <>
+                <MapUser/>
+                <NoCars/>   
+            </>
+            )
         }
     }
 
