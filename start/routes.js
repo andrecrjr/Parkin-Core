@@ -31,6 +31,8 @@ Route.get('api/has_cars/:id', 'CarController.show_cars');
 //park lot controller
 Route.post('api/create_lot', 'ParkLotController.create');
 Route.get('api/show_lots/:id', 'ParkLotController.show');
+Route.get('api/find_park_lot', 'ParkLotController.findParkLots');
+
 //parking the car
 Route.post('api/parkin', 'ParkingCarController.parking_car');
 Route.post('api/unparkin', 'ParkingCarController.unparking_car');
