@@ -12,7 +12,7 @@ const RegisterCar = () =>{
     return (
         <>
         <AddCar.Provider value={{inputCarCode, inputCarModel, registerCar}}>
-            <h2>Register your car here!</h2>
+            <h2>Add your car</h2>
                 <AddCarForm/>
                 <UserCarPlate/>
         </AddCar.Provider>

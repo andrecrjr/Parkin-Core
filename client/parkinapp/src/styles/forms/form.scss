@@ -14,4 +14,17 @@
         color:red;
         text-align: center;
     }
+    &__modal{
+        font-size:12px;
+        transition: all 800ms ease-in-out;
+        &.on{
+            visibility: visible;
+            padding-top: 15px;
+            display: block;
+            transition: all 800ms ease-in-out;
+        }
+        &.off{
+            visibility: hidden;
+        }
+    }
 }

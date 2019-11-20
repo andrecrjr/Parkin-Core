@@ -3,10 +3,14 @@ import {AddCar} from './';
 import {apiAuthPost} from '../components/helpers/apiService';
 import {UserContext} from '../components/contexts/UserContext';
 import {useHistory} from 'react-router-dom';
+import {useModal} from '../components/hooks/useModal';
 
 const AddCarForm = () =>{
     const userAccount = React.useContext(UserContext);
     const {inputCarCode, inputCarModel} = React.useContext(AddCar);
+    const carModel = useModal();
+    const carPlate = useModal();
+
     let history = useHistory()
 
     const payloadAddCar = {
@@ -29,10 +33,15 @@ const AddCarForm = () =>{
         <>
             <form method="POST" className="form__add-car--group" onSubmit={submitAddCar}>
                 <label>Car model</label>
-                <input type="text" name="car_model" {...inputCarModel}/>
+                <span class={carModel.modal?`form__modal on`:`form__modal off`}>Type here the name of your car for Parkins recognize you!</span>
+                <input type="text" name="car_model" {...inputCarModel} 
+                                    placeholder="Ford Ka" 
+                                    {...carModel.formGet}/>
                 <label>Car plate</label>
-                <input type="text" name="car_code" {...inputCarCode}/>
-                <button type="submit">Adicionar Carro + </button>
+                <span class={carPlate.modal?`form__modal on`:`form__modal off`}>This will be important, 
+                your plate is just yours and unique in our database!</span>
+                <input type="text" name="car_code" {...inputCarCode} {...carPlate.formGet} placeholder="KLL-9864"/>
+                <button type="submit">Add Car + </button>
             </form>
         </>
     )
