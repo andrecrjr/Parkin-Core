@@ -1,6 +1,6 @@
 import React from 'react';
 import {UserContext} from '../components/contexts/UserContext';
-import {CarList, NoCars} from '../components/CarList/';
+import {CarList, NoCars, OneMoreCar} from '../components/CarList/';
 import {apiAuthGet} from '../components/helpers/apiService';
 import MapUser from './MapIndex';
 
@@ -27,13 +27,15 @@ const Main = () =>{
         if(cars.length > 0){
             return(
                 <>
+                <section className="car__list--wrapper">
                     <CarList cars={cars} />
+                </section>
+                    <OneMoreCar/>
                 </>
             )
         }else{
             return(
             <>
-                <MapUser/>
                 <NoCars/>   
             </>
             )

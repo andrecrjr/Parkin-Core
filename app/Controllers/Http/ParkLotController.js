@@ -24,11 +24,6 @@ class ParkLotController {
         
         const parklots = await ParkLot.query().nearBy(latitude, longitude, distance || 2).fetch()
         
-
-        console.log(parklots.toJSON().forEach((obj)=>{
-            obj.location = {type:"Point", latitude:obj.latitude, longitude:obj.longitude}
-        }))
-
         return parklots
     }
     

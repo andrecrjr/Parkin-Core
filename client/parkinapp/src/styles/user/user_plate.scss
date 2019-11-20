@@ -4,13 +4,25 @@
             background: #DCDCDC;
             display: flex;
             flex-direction: column;
-            border-radius:25px;
+            border-radius:15px;
             transition:200ms all ease-in-out;
-            width: 50%;
+            width: 70%;
             margin: 0 auto;
+            height: 85px;
+            margin-top:35px;
+            justify-content: center;
+            &.main-list{
+                margin-top:0;
+                margin-bottom:35px;
+            }
             ul{
-                text-align: center;
-                text-transform: uppercase;
+
+                li{
+                    text-align: center;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                }
+                
             }
         }
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import MapGL from 'react-map-gl';
-import {Marker} from 'react-map-gl'
+import {Popup, Marker} from 'react-map-gl'
 
 const MapUser = () =>{
 
@@ -14,6 +14,7 @@ const MapUser = () =>{
         }
     )
     const [locationUser, setLocation] = React.useState({latitude:0, longitude:0})
+    const [showPopupPlate, setPlate] = React.useState(true);
 
     const setUserLocation = () =>{
         if (navigator.geolocation){
@@ -36,9 +37,15 @@ const MapUser = () =>{
             <MapGL {...viewport} 
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
                 onViewportChange={(viewport)=>setViewport(viewport)}>
-                    <Marker latitude={parseFloat(locationUser.latitude)} longitude={parseFloat(locationUser.longitude)}>
+                    {showPopupPlate && <Popup latitude={parseFloat(locationUser.latitude)} 
+                    longitude={parseFloat(locationUser.longitude)}
+                    onClose={()=>setPlate(false)}>
+                        Estou aqui
+                    </Popup>}
+                    <Marker latitude={parseFloat(locationUser.latitude)} 
+                        longitude={parseFloat(locationUser.longitude)} >
                         <img src="https://www.freepngimg.com/thumb/map/63086-map-google-computer-icons-point-vector-maker.png" 
-                        width="30"/>
+                        width="30" onClick={()=>{setPlate(!showPopupPlate)}}/>
                     </Marker>
             </MapGL>
         </>

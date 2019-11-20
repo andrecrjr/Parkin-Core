@@ -1,21 +1,28 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
-import {Button} from '../Layout/Button'
+import {Link} from 'react-router-dom';
+import {Button} from '../Layout/Button';
+import UserCarPlate from '../CarList/UserCarPlate';
 
 export const CarList = ({cars}) =>{
+
     return(
         <>
         {
             cars.map((car, index)=>
-                <ul class="list__cars--car" key={index}>
-                    <li class="list__cars--car_code">{car.car_code}</li>
-                    <li class="list__cars--model">{car.car_model}</li>
-                    <li class="list__cars--in_parkin">Utilizando Parkin: {car.is_in_parklot === 0? `No`:`Yes`}</li>
-                </ul>
+                <UserCarPlate key={index} car={car}/>
             )
         }
         </>
     )
+}
+
+export const OneMoreCar = () =>{
+    return(<>
+        <section className="one-more-car">
+            <p className="list__cars--one-more-car">Adicione mais um veículo!</p>
+            <Link to="/user_car"><button className={`add--car`}>+</button></Link>
+        </section>
+    </>)
 }
 
 export const NoCars = () =>{

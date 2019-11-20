@@ -16,10 +16,12 @@ const UserCarPlate = (props) =>{
         )
    
     return(
-        <section class="user__plate--car">
-            <li class="user__plate--car_code">{car.car_code}</li>
-            <li class="user__plate--model">{car.car_model}</li>
-            {registerCar === undefined ? `` : <li class="user__plate--in_parkin">Utilizando Parkin: {car.is_in_parklot === 0? `No`:`Yes`}</li>}
+        <section class="user__plate--car main-list">
+            <ul>
+                <li class="user__plate--car_code">{car.car_code}</li>
+                <li class="user__plate--model">{car.car_model}</li>
+                {registerCar === undefined ? `` : <li class="user__plate--in_parkin">Utilizando Parkin: {car.is_in_parklot === 0? `No`:`Yes`}</li>}
+            </ul>
         </section>
     )
 }
