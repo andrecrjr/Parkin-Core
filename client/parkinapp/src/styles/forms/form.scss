@@ -18,13 +18,15 @@
         font-size:12px;
         transition: all 800ms ease-in-out;
         &.on{
-            visibility: visible;
-            padding-top: 15px;
+            opacity:1;
+            height:auto;
+            padding-top: 5px;
             display: block;
             transition: all 800ms ease-in-out;
         }
         &.off{
-            visibility: hidden;
+            opacity:0;
+            overflow: hidden;
         }
     }
 }

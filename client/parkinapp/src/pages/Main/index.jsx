@@ -3,10 +3,12 @@ import {UserContext} from '../components/contexts/UserContext';
 import {CarList, NoCars, OneMoreCar} from '../components/CarList/';
 import {apiAuthGet} from '../components/helpers/apiService';
 import MapUser from './MapIndex';
+import {useModal} from '../components/hooks/useModal';
 
 const Main = () =>{
     const userData = React.useContext(UserContext)
     const [cars, setCars] = React.useState([])
+    
 
     const loadCars = React.useCallback(async (id) =>{
         try{

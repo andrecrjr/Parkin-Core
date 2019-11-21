@@ -2,9 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from '../Layout/Button';
 import UserCarPlate from '../CarList/UserCarPlate';
+import {useModal} from '../hooks/useModal';
 
 export const CarList = ({cars}) =>{
-
+    
     return(
         <>
         {
@@ -17,10 +18,11 @@ export const CarList = ({cars}) =>{
 }
 
 export const OneMoreCar = () =>{
+    const addCarButton = useModal()
     return(<>
         <section className="one-more-car">
-            <p className="list__cars--one-more-car">Adicione mais um veículo!</p>
-            <Link to="/user_car"><button className={`add--car`}>+</button></Link>
+            <p className={addCarButton.modal ?`list__cars--one-more-car`:`list__cars--one-more-car none`}>Add a new car</p>
+            <Link to="/user_car"><button className={`add--car`} onMouseEnter={()=>{console.log("passou aqui")}}>+</button></Link>
         </section>
     </>)
 }
@@ -31,7 +33,7 @@ export const NoCars = () =>{
         <p>
             Nenhum carro no momento!
         </p>
-        <Link to="/user_car"><Button className={`add--car`}>Adicione o carro</Button></Link>
+            <OneMoreCar/>
         </>
     )
 }
