@@ -28,7 +28,8 @@ const SignUpPage = (props) =>{
         return <Redirect to='/'/>
     }
 
-    const signUpJsonUser = {username:username.value,
+    const signUpJsonUser = {
+        username:username.value,
         email:email.value, 
         password:password.value, 
         first_name:firstName.value, 
@@ -38,7 +39,6 @@ const SignUpPage = (props) =>{
     
     const submitSignUp = async (e) =>{
         e.preventDefault()
-        console.log(signUpJsonUser)
         const data = await fetchData("http://127.0.0.1:3333/api/create_profile",signUpJsonUser);
         if(data.status === 200){
             return props.history.push('/login/?new_user')

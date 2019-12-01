@@ -1,12 +1,11 @@
 import React from 'react';
 import {UserContext} from '../contexts/UserContext';
-import {useAuthentication} from '../hooks/useAuthentication';
 import {apiAuthGet} from '../helpers/apiService';
 
 const withAccount = (Component) =>{
 
     return (props) =>{
-        const {token, isAuth} = useAuthentication()
+        let token = localStorage.getItem("token_user_parkin") || false
         const [user, setUser] = React.useState({})
 
         React.useMemo(async ()=>{
@@ -19,7 +18,7 @@ const withAccount = (Component) =>{
         },[token])
 
         return (<>
-                    <UserContext.Provider value={{user, token, isAuth}}>
+                    <UserContext.Provider value={{user, token}}>
                         <Component {...props}/>
                     </UserContext.Provider>
                 </>
