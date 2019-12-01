@@ -6,26 +6,25 @@ import MapUser from './MapIndex';
 import {useModal} from '../components/hooks/useModal';
 
 const Main = () =>{
-    const userData = React.useContext(UserContext)
+    const {user} = React.useContext(UserContext)
     const [cars, setCars] = React.useState([])
-    
 
-    const loadCars = React.useCallback(async (id) =>{
-        try{
-            const {data} = await apiAuthGet("has_cars/"+id, userData.token)
-            setCars(data);
-        }catch(err){
-            console.log(err)
-        }
-    }, [userData.token])
-    
     React.useEffect(()=>{
-       if(userData.user.id){
-           loadCars(userData.user.id)
+       if(user.id){
+           async function loadCars(id){
+            try{
+                const {data} = await apiAuthGet("has_cars/"+id, user.token)
+                setCars(data);
+            }catch(err){
+                console.log(err)
+            }
+           }
+           loadCars(user.id)
        }
-    },[loadCars, userData.user.id])
+       console.log(user)
+    },[user.id])
 
-    if(userData.token){
+    if(user.token){
         if(cars.length > 0){
             return(
                 <>

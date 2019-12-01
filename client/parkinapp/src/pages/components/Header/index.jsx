@@ -3,7 +3,7 @@ import {UserContext} from '../contexts/UserContext';
 import {Link, useHistory} from 'react-router-dom'
 
 export const Header = (props) =>{
-    const data = React.useContext(UserContext);
+    const {user} = React.useContext(UserContext);
     const history = useHistory();
     
     const removeSession = () =>{
@@ -11,7 +11,7 @@ export const Header = (props) =>{
         history.push('/')   
         window.location.reload()
     }
-
+    console.log(user)
     return(
         
         <header class="header__main">
@@ -19,13 +19,13 @@ export const Header = (props) =>{
                 Parkin!
             </div>
             <div className="header__main--menu">
-                {data.user === false ?
+                {!user.token ?
                     <ul className="header__main--menu-login">
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/signup">Sign Up</Link></li>
                     </ul>:
                     <ul className="header__main--menu-user">
-                        <li>Usuário: {data.user.username}</li>
+                        <li>Usuário: {user.username}</li>
                         <li onClick={removeSession}>Logout</li>
                     </ul>
                 }
