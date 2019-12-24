@@ -1,5 +1,4 @@
 import React from 'react';
-import withAccount from '../components/HOCs/withAccount';
 import Body from '../components/Layout/Body';
 import SignUpPage from './SignUp';
 import Login from './Login';
@@ -8,8 +7,10 @@ import {PrivateRoute} from '../components/Layout/PrivateRoute';
 import RegisterCar from './UserCars/';
 import Profile from './ProfileUser';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import rootReducer from '../reducers/'
+import thunk from 'redux-thunk';
+import history from '../history'
 
 import {
   BrowserRouter as Router,
@@ -35,7 +36,7 @@ function App(props) {
       })
     }
     */
-  const store = createStore(rootReducer)
+  const store = createStore(rootReducer, applyMiddleware(thunk))
   return (
     <Provider store={store}>
       <Router>
@@ -53,4 +54,4 @@ function App(props) {
   );
 }
 
-export default withAccount(App);
+export default App;

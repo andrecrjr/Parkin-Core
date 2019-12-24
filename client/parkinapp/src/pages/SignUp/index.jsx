@@ -1,33 +1,22 @@
 import React from 'react';
 import {useFormInput} from '../../components/hooks/useFormInput';
-import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import {UserContext} from '../../components/contexts/UserContext'
 import SignUpForm from './SignUpForm';
 import {SignUpContext} from './SignUpContext';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSignup} from '../../actions/signupUser'
 
 const SignUpPage = (props) =>{
-    const {isAuth} = React.useContext(UserContext)
     const username = useFormInput("")
     const email = useFormInput("") 
     const password = useFormInput("")
     const firstName = useFormInput("")
     const lastName = useFormInput("")
     const identifierSocial = useFormInput("")
-
-    async function fetchData(url, body){
-        try{
-            const data = await axios.post(url, body)
-            return data;
-        }catch(err){
-            console.log(err.response)
-        }
-    }
-
-    if(isAuth){
-        return <Redirect to='/'/>
-    }
-
+    const dispatch = useDispatch()
+    const {signUp, auth} = useSelector(state=>state)
+    
     const signUpJsonUser = {
         username:username.value,
         email:email.value, 
@@ -36,36 +25,28 @@ const SignUpPage = (props) =>{
         last_name:lastName.value, 
         identifier_social:identifierSocial.value
     };
-    
+
     const submitSignUp = async (e) =>{
         e.preventDefault()
-        //dispatch(signupUser(signUpJsonUser))
-        const data = await fetchData(`${process.env.REACT_APP_API_URL}create_profile`,signUpJsonUser);
-        if(data.status === 200){
-            return props.history.push('/login/?new_user')
-        }
+        dispatch(userSignup(signUpJsonUser))
     }
 
-    const disableButton = () =>{
-        if(password.error.status === false){
-            return false;
+    React.useEffect(()=>{
+        if(signUp===true){
+            console.log(auth)
+            return props.history.push('/?new_user')
         }
-        return true
-    }
-    const passStatus = ()=>{
-        if (password.error.status === true){
-            return true
+        if(auth.authenticated){
+            return props.history.push('/')
         }
-        return false
-    }
+    },[signUp, auth])
 
     return(
         <>
         <SignUpContext.Provider value={{username, 
             email, password, 
             firstName, lastName, 
-            identifierSocial, 
-            passStatus, disableButton,
+            identifierSocial,
             submitSignUp}}>
             <SignUpForm />
         </SignUpContext.Provider>

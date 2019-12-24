@@ -5,6 +5,8 @@ import {Redirect} from "react-router-dom";
 import {ErrorForm} from '../../components/Layout/Body';
 import {UserContext} from '../../components/contexts/UserContext';
 import LoginForm from './LoginForm';
+import {loginApi} from '../../actions/authUser'
+import { useSelector, useDispatch } from 'react-redux';
 
 const Login = (props) =>{
     const {isAuth} = React.useContext(UserContext);
@@ -12,21 +14,9 @@ const Login = (props) =>{
     const loginPassword = useFormInput("");
     const [error, setError] = React.useState({status:false, response:""});
     const [warning, setWarning] = React.useState(null);
-
-    async function fetchData(url, body){
-        try{
-            const response = await api.post(url, body)
-            const {status, data} = response
-            if(status === 200){
-                localStorage.setItem('token_user_parkin', data.token)
-                props.history.push('/')
-                window.location.reload()
-            }
-            return data;
-        }catch(err){
-            newFormError({status:true, response:err.response.data.data})
-        }
-    }
+    const data = useSelector(state=>state)
+    const dispatchLogin = useDispatch()
+    console.log(data.auth)
 
     const newFormError = (status) =>{
         if(loginPassword.value === "" || loginUser === ""){
@@ -43,7 +33,15 @@ const Login = (props) =>{
     
     const submitLogin = (e) =>{
         e.preventDefault()
-        return fetchData("auth", payloadLogin)
+        return login(payloadLogin)
+    }
+
+    async function login(body){
+        try{
+            dispatchLogin(loginApi(body))
+        }catch(err){
+            newFormError({status:true})
+        }
     }
 
     React.useEffect(()=>{

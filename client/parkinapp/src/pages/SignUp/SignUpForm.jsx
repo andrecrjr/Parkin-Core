@@ -11,7 +11,20 @@ const SignUpForm = (props) =>{
             firstName, 
             lastName, 
             identifierSocial, 
-            disableButton, passStatus} = React.useContext(SignUpContext)
+    } = React.useContext(SignUpContext)
+    
+    const disableButton = () =>{
+        if(password.error.status === false){
+            return false;
+        }
+        return true
+    }
+    const passStatus = ()=>{
+        if (password.error.status === true){
+            return true
+        }
+        return false
+    }  
 
     return(
         <div className="form__signup">

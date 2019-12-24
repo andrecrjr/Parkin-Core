@@ -6,19 +6,19 @@ const actionTypes = {
 
 const signupSuccess = (payload)=>{
     return {
-        type:SIGN_UP_SUCCESS,
+        type:actionTypes.SIGN_UP_SUCCESS,
         data:payload,
     }
 }
 
 const signupError = (payload)=>{
     return {
-        type:SIGN_UP_ERROR,
+        type:actionTypes.SIGN_UP_ERROR,
         error:payload,
     }
 }
 
-export const userLogin = (userData) =>{
+export const userSignup = (userData) =>{
     return dispatch =>{
         const fetchLogin = async () =>{
             try{
@@ -27,7 +27,6 @@ export const userLogin = (userData) =>{
             }catch(err){
                 dispatch(signupError(err.response))
             }
-           
         }
         fetchLogin()
     }

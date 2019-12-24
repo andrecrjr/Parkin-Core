@@ -1,14 +1,17 @@
 import React from 'react';
 import {UserContext} from '../contexts/UserContext';
 import {Link, useHistory} from 'react-router-dom'
+import { useSelector } from 'react-redux';
+
 
 export const Header = (props) =>{
     const {user} = React.useContext(UserContext);
     const history = useHistory();
+    const data = useSelector(state=>state)
     
     const removeSession = () =>{
         localStorage.removeItem("token_user_parkin")
-        history.push('/')   
+        history.push('/')
         window.location.reload()
     }
     
