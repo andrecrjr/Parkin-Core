@@ -4,9 +4,11 @@ import {CarList, NoCars, OneMoreCar} from '../../components/CarList';
 import {apiAuthGet} from '../../helpers/apiService';
 import MapUser from './MapIndex';
 import {useModal} from '../../components/hooks/useModal';
+import { useSelector } from 'react-redux';
 
 const Main = () =>{
     const {user} = React.useContext(UserContext)
+    //const data = useSelector(state=>state)
     const [cars, setCars] = React.useState([])
 
     React.useEffect(()=>{
