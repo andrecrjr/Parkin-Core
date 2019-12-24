@@ -1,9 +1,9 @@
 import React from 'react';
-import {UserContext} from '../components/contexts/UserContext';
-import {CarList, NoCars, OneMoreCar} from '../components/CarList/';
-import {apiAuthGet} from '../components/helpers/apiService';
+import {UserContext} from '../../components/contexts/UserContext';
+import {CarList, NoCars, OneMoreCar} from '../../components/CarList';
+import {apiAuthGet} from '../../helpers/apiService';
 import MapUser from './MapIndex';
-import {useModal} from '../components/hooks/useModal';
+import {useModal} from '../../components/hooks/useModal';
 
 const Main = () =>{
     const {user} = React.useContext(UserContext)
@@ -29,6 +29,7 @@ const Main = () =>{
             return(
                 <>
                 <section className="car__list--wrapper">
+                    <h1>Selecione {cars.length > 1 ? `um de seus carros cadastrados!`: `seu carro cadastrado!`} </h1>
                     <CarList cars={cars} />
                 </section>
                     <OneMoreCar/>

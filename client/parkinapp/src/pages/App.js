@@ -1,11 +1,16 @@
 import React from 'react';
-import withAccount from './components/HOCs/withAccount';
-import Body from './components/Layout/Body';
+import withAccount from '../components/HOCs/withAccount';
+import Body from '../components/Layout/Body';
 import SignUpPage from './SignUp';
 import Login from './Login';
 import Main from './Main';
-import {PrivateRoute} from './components/Layout/PrivateRoute';
+import {PrivateRoute} from '../components/Layout/PrivateRoute';
 import RegisterCar from './UserCars/';
+import Profile from './ProfileUser';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import rootReducer from '../reducers/'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,7 +35,9 @@ function App(props) {
       })
     }
     */
+  const store = createStore(rootReducer)
   return (
+    <Provider store={store}>
       <Router>
         <Body>
           <Switch>
@@ -38,9 +45,11 @@ function App(props) {
             <Route exact path="/signup" component={SignUpPage}/>
             <Route exact path="/login" component={Login}/>
             <PrivateRoute path="/user_car" component={RegisterCar}/>
+            <PrivateRoute path="user/:id" component={Profile}/>
           </Switch>
         </Body>
       </Router>
+      </Provider>
   );
 }
 

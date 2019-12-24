@@ -1,9 +1,9 @@
 import React from 'react';
 import {AddCar} from './';
-import {apiAuthPost} from '../components/helpers/apiService';
-import {UserContext} from '../components/contexts/UserContext';
+import {apiAuthPost} from '../../helpers/apiService';
+import {UserContext} from '../../components/contexts/UserContext';
 import {useHistory} from 'react-router-dom';
-import {useModal} from '../components/hooks/useModal';
+import {useModal} from '../../components/hooks/useModal';
 
 const AddCarForm = () =>{
     const userAccount = React.useContext(UserContext);

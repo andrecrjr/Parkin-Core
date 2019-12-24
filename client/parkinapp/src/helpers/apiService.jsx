@@ -9,14 +9,23 @@ export const api = axios.create(
     })
 
 export const apiAuthGet = async (url, token, payload) =>{
-    const data = axios.get(`${URL_API}`+url, 
+    const fetchGet = axios.get(`${URL_API}`+url, 
     {headers:{"Authorization":`Bearer ${token}`, "Content-Type":"application/json", "charset":"utf-8"}}, payload);
-    return data;
+    return fetchGet;
 }
 
 export const apiAuthPost = async (url, token, payload) =>{
-    const instance = axios.post(`${URL_API}`+url, payload, {
+    const fetchInstance = axios.post(`${URL_API}`+url, payload, {
         headers:{"Authorization":`Bearer ${token}`, "Content-Type":"application/json", "charset":"utf-8"}
     });
-    return instance;
+    return fetchInstance;
+}
+
+export async function fetchData(url, body){
+    try{
+        const data = await axios.post(url, body)
+        return data;
+    }catch(err){
+        console.log(err.response)
+    }
 }

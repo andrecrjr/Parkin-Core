@@ -1,7 +1,7 @@
 import React from 'react';
 import AddCarForm from './AddCarForm'
-import UserCarPlate from '../components/CarList/UserCarPlate';
-import {useFormInput} from '../components/hooks/useFormInput';
+import UserCarPlate from '../../components/CarList/UserCarPlate';
+import {useFormInput} from '../../components/hooks/useFormInput';
 
 export const AddCar = React.createContext({});
 

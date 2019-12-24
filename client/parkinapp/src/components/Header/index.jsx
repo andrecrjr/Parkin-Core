@@ -11,7 +11,7 @@ export const Header = (props) =>{
         history.push('/')   
         window.location.reload()
     }
-    console.log(user)
+    
     return(
         
         <header class="header__main">

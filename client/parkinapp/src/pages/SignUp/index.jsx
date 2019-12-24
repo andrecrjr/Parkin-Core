@@ -1,8 +1,8 @@
 import React from 'react';
-import {useFormInput} from '../components/hooks/useFormInput';
+import {useFormInput} from '../../components/hooks/useFormInput';
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
-import {UserContext} from '../components/contexts/UserContext'
+import {UserContext} from '../../components/contexts/UserContext'
 import SignUpForm from './SignUpForm';
 import {SignUpContext} from './SignUpContext';
 
@@ -39,7 +39,8 @@ const SignUpPage = (props) =>{
     
     const submitSignUp = async (e) =>{
         e.preventDefault()
-        const data = await fetchData("http://127.0.0.1:3333/api/create_profile",signUpJsonUser);
+        //dispatch(signupUser(signUpJsonUser))
+        const data = await fetchData(`${process.env.REACT_APP_API_URL}create_profile`,signUpJsonUser);
         if(data.status === 200){
             return props.history.push('/login/?new_user')
         }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {validationPassword} from '../helpers/formHelpers';
+import {validationPassword} from '../../helpers/formHelpers';
 
 
 export const useFormInput = (initialValue)=>{

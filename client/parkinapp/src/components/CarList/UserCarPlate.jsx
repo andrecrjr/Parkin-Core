@@ -1,9 +1,8 @@
 import React from 'react';
-import {AddCar} from '../../UserCars'
+import {AddCar} from '../../pages/UserCars'
 
-const UserCarPlate = (props) =>{
+const UserCarPlate = ({car}) =>{
     
-    const {car} = props
     const {inputCarCode, inputCarModel, registerCar} = React.useContext(AddCar)
     if(registerCar)
         return(

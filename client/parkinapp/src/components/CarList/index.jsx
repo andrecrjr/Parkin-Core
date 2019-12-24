@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from '../Layout/Button';
-import UserCarPlate from '../CarList/UserCarPlate';
+import UserCarPlate from './UserCarPlate';
 import {useModal} from '../hooks/useModal';
 
 export const CarList = ({cars}) =>{

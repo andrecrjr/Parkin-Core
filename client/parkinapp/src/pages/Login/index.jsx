@@ -1,9 +1,9 @@
 import React from 'react';
-import {useFormInput} from '../components/hooks/useFormInput';
-import {api} from '../components/helpers/apiService';
+import {useFormInput} from '../../components/hooks/useFormInput';
+import {api} from '../../helpers/apiService';
 import {Redirect} from "react-router-dom";
-import {ErrorForm} from '../components/Layout/Body';
-import {UserContext} from '../components/contexts/UserContext';
+import {ErrorForm} from '../../components/Layout/Body';
+import {UserContext} from '../../components/contexts/UserContext';
 import LoginForm from './LoginForm';
 
 const Login = (props) =>{

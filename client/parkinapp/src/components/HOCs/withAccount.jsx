@@ -1,6 +1,6 @@
 import React from 'react';
 import {UserContext} from '../contexts/UserContext';
-import {apiAuthGet} from '../helpers/apiService';
+import {apiAuthGet} from '../../helpers/apiService';
 
 
 const AccountReducer = (state, action) =>{
