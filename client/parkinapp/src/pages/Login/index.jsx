@@ -27,20 +27,16 @@ const Login = (props) =>{
         email:loginUser.value, 
         password:loginPassword.value, 
     };
-    
 
-    async function login(body){
-        try{
-            dispatchLogin(loginApi(body))
-        }catch(err){
-            newFormError({status:true})
-        }
+    function login(body){
+        dispatchLogin(loginApi(body))
     }
 
     const submitLogin = (e) =>{
         e.preventDefault()
-        return login(payloadLogin)
+        login(payloadLogin)
     }
+
 
     React.useEffect(()=>{
         const {location} = props;
@@ -54,6 +50,11 @@ const Login = (props) =>{
             return props.history.push('/')
         }
     },[])
+
+    React.useEffect(()=>{
+        if(auth.error)
+            newFormError({status:true, response:auth.error.data})
+    },[auth])
 
 
     return (

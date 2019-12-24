@@ -37,7 +37,7 @@ export const loginApi = (body)=>{
                 }
                 return data;
             }catch(err){
-                console.log(err)
+                dispatch(loginFail(err.response.data))
             }
             
         }

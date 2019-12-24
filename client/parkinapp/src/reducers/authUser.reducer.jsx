@@ -10,7 +10,7 @@ const userAuth = (state=initialState, action)=>{
         case "LOGIN_USER_TRUE":
             return {...state, authenticated: action.authenticated, 
                                 token: action.token, error:null}
-        case "LOGIN_USER_FAIL":
+        case "LOGIN_USER_FALSE":
             return {...state, error:action.payload}
         default:
             return state
