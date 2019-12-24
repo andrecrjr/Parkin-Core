@@ -24,25 +24,9 @@ const Main = () =>{
        }
        
     },[auth, user])
-    
+
     if(auth.authenticated){
-        if(cars){
-            return(
-                <>
-                <section className="car__list--wrapper">
-                    <h1>Selecione {cars.length > 1 ? `um de seus carros cadastrados!`: `seu carro cadastrado!`} </h1>
-                    <CarList cars={cars} />
-                </section>
-                    <OneMoreCar/>
-                </>
-            )
-        }else{
-            return(
-            <>
-                <NoCars/>   
-            </>
-            )
-        }
+        return (<ListCarsMain cars={cars}/>)
     }
 
     return(
@@ -51,3 +35,23 @@ const Main = () =>{
 }
 
 export default Main;
+
+export const ListCarsMain = ({cars}) =>{
+    if(cars){
+        return(
+            <>
+            <section className="car__list--wrapper">
+                <h1>Selecione {cars.length > 1 ? `um de seus carros cadastrados!`: `seu carro cadastrado!`} </h1>
+                <CarList cars={cars} />
+            </section>
+                <OneMoreCar/>
+            </>
+        )
+    }else{
+        return(
+        <>
+            <NoCars/>   
+        </>
+        )
+    }
+}
