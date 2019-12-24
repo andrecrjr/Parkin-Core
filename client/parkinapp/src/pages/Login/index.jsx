@@ -1,6 +1,5 @@
 import React from 'react';
 import {useFormInput} from '../../components/hooks/useFormInput';
-import {api} from '../../helpers/apiService';
 import {Redirect} from "react-router-dom";
 import {ErrorForm} from '../../components/Layout/Body';
 import {UserContext} from '../../components/contexts/UserContext';
@@ -9,14 +8,12 @@ import {loginApi} from '../../actions/authUser'
 import { useSelector, useDispatch } from 'react-redux';
 
 const Login = (props) =>{
-    const {isAuth} = React.useContext(UserContext);
     const loginUser = useFormInput("");
     const loginPassword = useFormInput("");
     const [error, setError] = React.useState({status:false, response:""});
     const [warning, setWarning] = React.useState(null);
-    const data = useSelector(state=>state)
+    const {auth} = useSelector(state=>state)
     const dispatchLogin = useDispatch()
-    console.log(data.auth)
 
     const newFormError = (status) =>{
         if(loginPassword.value === "" || loginUser === ""){
@@ -31,10 +28,6 @@ const Login = (props) =>{
         password:loginPassword.value, 
     };
     
-    const submitLogin = (e) =>{
-        e.preventDefault()
-        return login(payloadLogin)
-    }
 
     async function login(body){
         try{
@@ -42,6 +35,11 @@ const Login = (props) =>{
         }catch(err){
             newFormError({status:true})
         }
+    }
+
+    const submitLogin = (e) =>{
+        e.preventDefault()
+        return login(payloadLogin)
     }
 
     React.useEffect(()=>{
@@ -52,11 +50,11 @@ const Login = (props) =>{
         if(location.search === "?logoff"){
             setWarning("You're not logged, try to login again!")
         }
+        if(auth.authenticated){
+            return props.history.push('/')
+        }
     },[])
 
-    if(isAuth){
-        return <Redirect to="/"/>
-    }
 
     return (
         <section className="form__login">

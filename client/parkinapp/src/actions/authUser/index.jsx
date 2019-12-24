@@ -31,7 +31,7 @@ export const loginApi = (body)=>{
                 if(status === 200){
                     const user = await apiAuthGet(`show_user`, data.token)
                     localStorage.setItem('token_user_parkin', data.token)
-                    localStorage.setItem('parkin_user', user)
+                    localStorage.setItem('parkin_user', user.data)
                     dispatch(loginUser(data.token, user.data))
                     history.push('/')
                     window.location.reload()
