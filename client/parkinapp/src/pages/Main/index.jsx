@@ -1,34 +1,32 @@
 import React from 'react';
-import {UserContext} from '../../components/contexts/UserContext';
 import {CarList, NoCars, OneMoreCar} from '../../components/CarList';
-import {apiAuthGet} from '../../helpers/apiService';
 import MapUser from './MapIndex';
 import {useModal} from '../../components/hooks/useModal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {listCars} from '../../actions/authUser/listCars'
 
 const Main = () =>{
-    const {user} = React.useContext(UserContext)
-    //const data = useSelector(state=>state)
-    const [cars, setCars] = React.useState([])
+    const {auth, userCars} = useSelector(state=>state);
+    const {cars} = userCars;
+    const {user} = auth;
+    const dispatchListCars = useDispatch();
 
     React.useEffect(()=>{
-       if(user.id){
-           async function loadCars(id){
+       if(auth.authenticated){
+           async function loadCars(){
             try{
-                //dispatchListCars()
-                const {data} = await apiAuthGet("has_cars/"+id, user.token)
-                setCars(data);
+                dispatchListCars(listCars(user.id,auth.token))
             }catch(err){
                 console.log(err)
             }
            }
-           loadCars(user.id)
+           loadCars()
        }
-       console.log(user)
-    },[user.id])
-
-    if(user.token){
-        if(cars.length > 0){
+       
+    },[auth, user])
+    
+    if(auth.authenticated){
+        if(cars){
             return(
                 <>
                 <section className="car__list--wrapper">
