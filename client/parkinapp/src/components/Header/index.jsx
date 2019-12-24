@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 
 
 export const Header = (props) =>{
-    const {user} = React.useContext(UserContext);
     const history = useHistory();
-    const data = useSelector(state=>state)
+    const {auth} = useSelector(state=>state);
+    const {user} = auth;
     
     const removeSession = () =>{
         localStorage.removeItem("token_user_parkin")
@@ -22,7 +22,7 @@ export const Header = (props) =>{
                 Parkin!
             </div>
             <div className="header__main--menu">
-                {!user.token ?
+                {!auth.authenticated ?
                     <ul className="header__main--menu-login">
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/signup">Sign Up</Link></li>

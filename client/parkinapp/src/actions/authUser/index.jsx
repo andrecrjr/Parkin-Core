@@ -11,7 +11,6 @@ export const loginUser = payload =>{
         type:actionType.LOGIN_TRUE,
         token:payload.token,
         authenticated:true,
-        user: payload.data
     }
 }
 
@@ -26,13 +25,13 @@ export const loginApi = (body)=>{
     return dispatch =>{
         async function fetchLogin(){
             try{
-                const response = await fetchData(`${process.env.REACT_APP_API_URL}auth`, body)
+                const response = await fetchData(`auth`, body)
                 const {status, data} = response
                 if(status === 200){
                     const user = await apiAuthGet(`show_user`, data.token)
                     localStorage.setItem('token_user_parkin', data.token)
-                    localStorage.setItem('parkin_user', user.data)
-                    dispatch(loginUser(data.token, user.data))
+                    localStorage.setItem('parkin_user', JSON.stringify(user.data))
+                    dispatch(loginUser({token:data.token}))
                     history.push('/')
                     window.location.reload()
                 }

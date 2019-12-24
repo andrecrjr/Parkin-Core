@@ -1,4 +1,6 @@
-const initialState = {authenticated:localStorage.getItem("token_user_parkin") ? true : false, token:null, error:null}
+const initialState = {authenticated:localStorage.getItem("token_user_parkin") ? true : false, 
+                token:localStorage.getItem("token_user_parkin") ? localStorage.getItem("token_user_parkin") : false, error:null,
+            user: localStorage.getItem("parkin_user") ? JSON.parse(localStorage.getItem("parkin_user")) : null}
 
 const userAuth = (state=initialState, action)=>{
     switch(action.type){

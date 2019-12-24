@@ -15,6 +15,7 @@ const Main = () =>{
        if(user.id){
            async function loadCars(id){
             try{
+                //dispatchListCars()
                 const {data} = await apiAuthGet("has_cars/"+id, user.token)
                 setCars(data);
             }catch(err){

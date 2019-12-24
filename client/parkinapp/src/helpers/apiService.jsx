@@ -21,9 +21,10 @@ export const apiAuthPost = async (url, token, payload) =>{
     return fetchInstance;
 }
 
+/* GET API REQUEST WITHOUT TOKEN */
 export async function fetchData(url, body){
     try{
-        const data = await axios.post(url, body)
+        const data = await axios.post(`${URL_API}${url}`, body)
         return data;
     }catch(err){
         console.log(err.response)
